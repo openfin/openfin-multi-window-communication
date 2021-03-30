@@ -39,3 +39,17 @@ More information about OpenFin:
 - https://openfin.co/ -> main site
 - https://developers.openfin.co/docs/getting-started => getting started guide
 - https://github.com/openfin -> OpenFin Github repo
+
+## Disclaimers
+* This is a starter example and intended to demonstrate to app providers a sample of how to approach an implementation. There are potentially other ways to approach it and alternatives could be considered. 
+* This is an open source project and all are encouraged to contribute.
+* Its possible that the repo is not actively maintained.
+
+## License
+MIT
+
+The code in this repository is covered by the included license.
+However, if you run this code, it may call on the OpenFin RVM or OpenFin Runtime, which are covered by OpenFin’s Developer, Community, and Enterprise licenses. You can learn more about OpenFin licensing at the links listed below or just email us at support@openfin.co with questions.
+
+https://openfin.co/developer-agreement/ <br>
+https://openfin.co/licensing/”
