@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/johnman/openfin-multi-window-communication.git"
+    "url": "git+https://github.com/openfin/openfin-multi-window-communication.git"
   },
   "keywords": [],
   "author": "OpenFin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/johnman/openfin-multi-window-communication/issues"
+    "url": "https://github.com/openfin/openfin-multi-window-communication/issues"
   },
-  "homepage": "https://github.com/johnman/openfin-multi-window-communication#readme",
+  "homepage": "https://github.com/openfin/openfin-multi-window-communication#readme",
   "devDependencies": {
     "serve": "^11.2.0"
   },

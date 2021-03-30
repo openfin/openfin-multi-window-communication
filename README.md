@@ -16,7 +16,7 @@ You can use the link below to run the browser and OpenFin version (if you have O
 
 CodeSandbox: https://zxf6r.csb.app/
 
-Github: https://johnman.github.io/openfin-multi-window-communication/index.html
+Github: https://openfin.github.io/openfin-multi-window-communication/index.html
 
 If you want to browse the project using codesandbox you can visit:
 

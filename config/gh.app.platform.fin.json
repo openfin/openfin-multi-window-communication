@@ -7,7 +7,7 @@
   },
   "platform": {
     "uuid": "openfin-messaging-perf-platform",
-    "applicationIcon": "https://johnman.github.io/openfin-multi-window-communication/favicon.ico",
+    "applicationIcon": "https://openfin.github.io/openfin-multi-window-communication/favicon.ico",
     "autoShow": false
   },
   "snapshot": {
@@ -33,7 +33,7 @@
                   "type": "component",
                   "componentName": "view",
                   "componentState": {
-                    "url": "https://johnman.github.io/openfin-multi-window-communication/views/publisher.html",
+                    "url": "https://openfin.github.io/openfin-multi-window-communication/views/publisher.html",
                     "name": "component_1584387105285"
                   },
                   "isClosable": true,
