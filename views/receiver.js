@@ -83,10 +83,10 @@ async function init() {
       .catch((err) => console.log(err));
 
       (async ()=> {
-        const client = await fin.InterApplicationBus.Channel.connect('performanceTest');
+        const client = await fin.InterApplicationBus.Channel.connect('performanceTest', { protocols: ['rtc'] });
     
         await client.register('PT1-client', (payload, identity) => {
-            console.log(payload, identity);
+            console.log(payload, identity);          
             return {
                 echo: payload
             };

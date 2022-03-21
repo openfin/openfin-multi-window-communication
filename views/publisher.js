@@ -189,11 +189,7 @@ async function publisher() {
           "PT1-provider",
           async (payload, identity) => {
             console.log(payload, identity);
-            return await provider.dispatch(
-              identity,
-              "PT1-client",
-              "Hello, World!"
-            );
+            return await provider.dispatch(identity, 'PT1-client', 'Hello, World!');
           }
         );
       })();
