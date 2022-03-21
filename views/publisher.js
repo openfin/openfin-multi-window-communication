@@ -15,6 +15,7 @@ async function publisher() {
   const sample = document.getElementById("sample");
   const threshold = document.getElementById("threshold");
   const iabMode = document.getElementById("iab-mode");
+  const ChannelAPIMode = document.getElementById("ChannelAPI-mode");
   const notRunning = document.getElementById("not-running");
   const results = document.getElementById("results");
   const broadcastId = "MessageBroadcastChannel";
@@ -33,7 +34,7 @@ async function publisher() {
 
   worker.port.start();
 
-  worker.port.addEventListener("message", async (event) => {
+  worker.port.addEventListener("message", async event => {
     console.log(event);
     if (event.data !== undefined && event.data.messagesSent !== undefined) {
       total.innerText = event.data.messagesSent;
@@ -101,6 +102,7 @@ async function publisher() {
 
   if (window.fin !== undefined) {
     iabMode.style.display = "unset";
+    ChannelAPIMode.style.display = "unset";
     if (window.fin.me.isView) {
       const platform = window.fin.Platform.getCurrentSync();
 
@@ -118,7 +120,7 @@ async function publisher() {
               windowIdentity
             )
             .then(console.log)
-            .catch((err) => console.log(err));
+            .catch(err => console.log(err));
         }
 
         setTimeout(() => {
@@ -148,7 +150,7 @@ async function publisher() {
       };
       let run = true;
       publishMessage(
-        (data) => {
+        data => {
           data.time = Date.now();
           broadcastChannel.postMessage(data);
         },
@@ -164,13 +166,37 @@ async function publisher() {
       };
       let run = true;
       publishMessageAsync(
-        async (data) => {
+        async data => {
           data.time = Date.now();
           return window.fin.InterApplicationBus.publish(broadcastId, data);
         },
         data,
         run
       );
+      return;
+    }
+
+    if (id === "start-ChannelAPI" && window.fin !== undefined) {
+      let data = {
+        message: options.message
+      };
+      (async () => {
+        const provider = await fin.InterApplicationBus.Channel.create(
+          "performanceTest", { protocols: ['rtc'] }
+        );
+
+        await provider.register(
+          "PT1-provider",
+          async (payload, identity) => {
+            console.log(payload, identity);
+            return await provider.dispatch(
+              identity,
+              "PT1-client",
+              "Hello, World!"
+            );
+          }
+        );
+      })();
       return;
     }
 

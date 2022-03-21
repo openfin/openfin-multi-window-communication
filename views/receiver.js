@@ -81,6 +81,20 @@ async function init() {
     )
       .then(() => console.log("Subscribed to messaging test topic"))
       .catch((err) => console.log(err));
+
+      (async ()=> {
+        const client = await fin.InterApplicationBus.Channel.connect('performanceTest');
+    
+        await client.register('PT1-client', (payload, identity) => {
+            console.log(payload, identity);
+            return {
+                echo: payload
+            };
+        });
+    
+        const providerResponse = await client.dispatch('PT1-provider', { message: 'Hello From the client'});
+        console.log(providerResponse);
+    })();
   }
   broadcastChannel.addEventListener("message", (event) => {
     entries.push(Date.now() - event.data.time);
