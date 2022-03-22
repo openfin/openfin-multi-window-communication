@@ -71,37 +71,45 @@ async function init() {
   let thresholdLimit = 0;
   let testStart;
 
-  if (window.fin !== undefined) {
-    window.fin.InterApplicationBus.subscribe(
-      { uuid: window.fin.me.uuid },
-      broadcastId,
-      (data) => {
-        entries.push(Date.now() - data.time);
-      }
-    )
-      .then(() => console.log("Subscribed to messaging test topic"))
-      .catch((err) => console.log(err));
-
-      (async ()=> {
-        const client = await fin.InterApplicationBus.Channel.connect('performanceTest', { protocols: ['rtc'] });
-    
-        await client.register('PT1-client', (payload, identity) => {
-            console.log(payload, identity);          
-            return {
-                echo: payload
-            };
-        });
-    
-        const providerResponse = await client.dispatch('PT1-provider', { message: 'Hello From the client'});
-        console.log(providerResponse);
-    })();
-  }
   broadcastChannel.addEventListener("message", (event) => {
     entries.push(Date.now() - event.data.time);
   });
 
   publisherCommandChannel.addEventListener("message", (event) => {
-    if (event.data.action === "start") {
+      if (event.data.action === "start") {
+        if (window.fin !== undefined) {
+          window.fin.InterApplicationBus.subscribe(
+            { uuid: window.fin.me.uuid },
+            broadcastId,
+            (data) => {
+              entries.push(Date.now() - data.time);
+            }
+          )
+          .then(() => console.log("Subscribed to messaging test topic"))
+          .catch((err) => console.log(err));
+    
+          (async ()=> {
+            const client = await fin.InterApplicationBus.Channel.connect('performanceTest', { protocols: ['rtc'] });
+        
+    
+            await client.register('client-action', (payload, identity) => {
+                console.log(payload, identity);
+                return {
+                    echo: payload
+                };
+            });
+        
+            
+            const providerResponse = await client.dispatch('PT1-provider', { message: 'Hello From the client'});
+            console.log(providerResponse);
+        
+        
+            await client.onDisconnection(evt => {
+              console.log('Provider disconnected', `uuid: ${evt.uuid}, name: ${evt.name}`);
+            });
+            
+        })();
+      }
       console.log("Start", event.data);
       notRunning.style.display = "none";
       setTestSettings(

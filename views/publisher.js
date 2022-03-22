@@ -166,7 +166,7 @@ async function publisher() {
       };
       let run = true;
       publishMessageAsync(
-        async data => {
+        async (data) => {
           data.time = Date.now();
           return window.fin.InterApplicationBus.publish(broadcastId, data);
         },
@@ -180,18 +180,35 @@ async function publisher() {
       let data = {
         message: options.message
       };
+      
       (async () => {
         const provider = await fin.InterApplicationBus.Channel.create(
           "performanceTest", { protocols: ['rtc'] }
         );
+       
+      await provider.register('PT1-provider', async (payload, identity) => {
+        console.log(payload, identity);
+        await Promise.all(provider.publish('client-action', { message: 'Broadcast from provider'}));
+        return;
+      });
 
-        await provider.register(
-          "PT1-provider",
-          async (payload, identity) => {
-            console.log(payload, identity);
-            return await provider.dispatch(identity, 'PT1-client', 'Hello, World!');
-          }
-        );
+      // let run = true;
+      // let data = {
+      //   message: options.message
+      // };  
+        
+      //   publishMessageAsync(
+      //   async data => {
+      //     data.time = Date.now();
+      //     return await provider.publish('PT1-client', data);
+      //   },
+      //   data,
+      //   run
+      // );
+      await provider.onDisconnection(evt => {
+        console.log('Client disconnected', `uuid: ${evt.uuid}, name: ${evt.name}`);
+      });
+
       })();
       return;
     }
