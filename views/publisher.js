@@ -188,23 +188,26 @@ async function publisher() {
        
       await provider.register('PT1-provider', async (payload, identity) => {
         console.log(payload, identity);
-        await Promise.all(provider.publish('client-action', { message: 'Broadcast from provider'}));
+        //await Promise.all(provider.publish('client-action', { message: 'Broadcast from provider'}));
+
+        let run = true;
+        let data = {
+          message: options.message
+        };  
+          
+          publishMessageAsync(
+          async data => {
+            data.time = Date.now();
+            return await provider.publish('PT1-client', data);
+          },
+          data,
+          run
+        );
+        
         return;
       });
 
-      // let run = true;
-      // let data = {
-      //   message: options.message
-      // };  
-        
-      //   publishMessageAsync(
-      //   async data => {
-      //     data.time = Date.now();
-      //     return await provider.publish('PT1-client', data);
-      //   },
-      //   data,
-      //   run
-      // );
+     
       await provider.onDisconnection(evt => {
         console.log('Client disconnected', `uuid: ${evt.uuid}, name: ${evt.name}`);
       });

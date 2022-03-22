@@ -92,7 +92,7 @@ async function init() {
             const client = await fin.InterApplicationBus.Channel.connect('performanceTest', { protocols: ['rtc'] });
         
     
-            await client.register('client-action', (payload, identity) => {
+            await client.register('PT1-client', (payload, identity) => {
                 console.log(payload, identity);
                 return {
                     echo: payload
