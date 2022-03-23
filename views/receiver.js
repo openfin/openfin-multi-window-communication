@@ -94,6 +94,7 @@ async function init() {
     
             await client.register('PT1-client', (payload, identity) => {
                 console.log(payload, identity);
+                entries.push(Date.now() - payload.time);
                 return {
                     echo: payload
                 };
