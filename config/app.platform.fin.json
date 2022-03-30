@@ -33,7 +33,7 @@
                   "type": "component",
                   "componentName": "view",
                   "componentState": {
-                    "url": "https://zxf6r.csb.app/views/publisher.html",
+                    "url": "http://localhost:5000/views/publisher.html",
                     "name": "component_1584387105285"
                   },
                   "isClosable": true,
