@@ -70,24 +70,33 @@ async function init() {
   let exceedModeOfEntry = 0;
   let thresholdLimit = 0;
   let testStart;
-
-  if (window.fin !== undefined) {
-    window.fin.InterApplicationBus.subscribe(
-      { uuid: window.fin.me.uuid },
-      broadcastId,
-      (data) => {
-        entries.push(Date.now() - data.time);
-      }
-    )
-      .then(() => console.log("Subscribed to messaging test topic"))
-      .catch((err) => console.log(err));
+  if(window.fin !== undefined) {
+    let channelAPIClient = await fin.InterApplicationBus.Channel.connect('performanceTest');
+    channelAPIClient.register('channel-api-client', (payload, identity) => {
+      entries.push(Date.now() - payload.time);
+    });    
   }
+
   broadcastChannel.addEventListener("message", (event) => {
     entries.push(Date.now() - event.data.time);
   });
 
-  publisherCommandChannel.addEventListener("message", (event) => {
-    if (event.data.action === "start") {
+  let iabClient = (data) => {
+    entries.push(Date.now() - data.time);
+  };
+
+  publisherCommandChannel.addEventListener("message", (event)=> {
+      if (event.data.action === "start") {
+        if (window.fin !== undefined) {
+          window.fin.InterApplicationBus.unsubscribe({uuid: fin.me.identity.uuid }, broadcastId, iabClient).then(_=> console.log("Unsubscribed from IAB.")).catch(error => console.error("Error unsubscribing from IAB.", error));
+          window.fin.InterApplicationBus.subscribe(
+            { uuid: window.fin.me.uuid },
+            broadcastId,
+            iabClient
+          )
+          .then(() => console.log("Subscribed to messaging test topic"))
+          .catch((err) => console.log(err));
+      }
       console.log("Start", event.data);
       notRunning.style.display = "none";
       setTestSettings(
@@ -125,9 +134,7 @@ async function init() {
           slowestEntry = entry;
         }
 
-        if (fastestEntry === undefined) {
-          fastestEntry = entry;
-        } else if (entry < fastestEntry) {
+        if (fastestEntry === undefined || entry < fastestEntry) {
           fastestEntry = entry;
         }
 
@@ -141,9 +148,7 @@ async function init() {
         }
 
         if (entry > thresholdLimit) {
-          if (exceedFastestEntry === undefined) {
-            exceedFastestEntry = entry;
-          } else if (entry < exceedFastestEntry) {
+          if (exceedFastestEntry === undefined || entry < exceedFastestEntry) {
             exceedFastestEntry = entry;
           }
 

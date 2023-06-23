@@ -7,7 +7,8 @@ export function setTestSettings(thresholdInMs, messageToSend, mode) {
   const modeMap = {
     broadcast: "Broadcast Channel Direct",
     broadcastworker: "Broadcast Channel Via Shared Worker",
-    iab: "OpenFin IAB Message Bus"
+    iab: "OpenFin IAB Message Bus",
+    "channel-api": "OpenFin Channel API"
   };
   let mappedMode = modeMap[mode];
   message.innerText = JSON.stringify(messageToSend, undefined, 4);

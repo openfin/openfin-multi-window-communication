@@ -15,6 +15,7 @@ async function publisher() {
   const sample = document.getElementById("sample");
   const threshold = document.getElementById("threshold");
   const iabMode = document.getElementById("iab-mode");
+  const channelAPIMode = document.getElementById("channel-api-mode");
   const notRunning = document.getElementById("not-running");
   const results = document.getElementById("results");
   const broadcastId = "MessageBroadcastChannel";
@@ -28,12 +29,18 @@ async function publisher() {
 
   const broadcastChannel = new BroadcastChannel(broadcastId);
 
+  if(window.fin !== undefined) {
+    const channelAPIProvider = await fin.InterApplicationBus.Channel.create(
+      "performanceTest"
+    );
+  }
+
   let selectedMode;
   let url = window.location.href.replace("publisher", "receiver");
 
   worker.port.start();
 
-  worker.port.addEventListener("message", async (event) => {
+  worker.port.addEventListener("message", event => {
     console.log(event);
     if (event.data !== undefined && event.data.messagesSent !== undefined) {
       total.innerText = event.data.messagesSent;
@@ -101,6 +108,7 @@ async function publisher() {
 
   if (window.fin !== undefined) {
     iabMode.style.display = "unset";
+    channelAPIMode.style.display = "unset";
     if (window.fin.me.isView) {
       const platform = window.fin.Platform.getCurrentSync();
 
@@ -118,7 +126,7 @@ async function publisher() {
               windowIdentity
             )
             .then(console.log)
-            .catch((err) => console.log(err));
+            .catch(err => console.log(err));
         }
 
         setTimeout(() => {
@@ -128,7 +136,7 @@ async function publisher() {
     }
   }
 
-  function action(id, options) {
+  async function action(id, options) {
     if (id === "start-broadcastworker") {
       if (worker !== undefined) {
         worker.port.postMessage({ action: "start", options });
@@ -148,7 +156,7 @@ async function publisher() {
       };
       let run = true;
       publishMessage(
-        (data) => {
+        data => {
           data.time = Date.now();
           broadcastChannel.postMessage(data);
         },
@@ -166,7 +174,7 @@ async function publisher() {
       publishMessageAsync(
         async (data) => {
           data.time = Date.now();
-          return window.fin.InterApplicationBus.publish(broadcastId, data);
+          return window.fin.InterApplicationBus.send({ uuid: fin.me.identity.uuid }, broadcastId, data);
         },
         data,
         run
@@ -174,12 +182,28 @@ async function publisher() {
       return;
     }
 
-    if (id === "stop-broadcast" || id === "stop-iab") {
+    if (id === "start-channel-api" && window.fin !== undefined) {
+      let data = {
+        message: options.message
+      };
+      let run = true;
+          
+      publishMessageAsync(
+      async (data) => {
+        data.time = Date.now();
+        return channelAPIProvider.publish('channel-api-client', data);
+      },
+      data,
+      run);
+      return;
+    }
+
+    if (id === "stop-broadcast" || id === "stop-iab" || id === "stop-channel-api") {
       total.innerText = stopMessage();
     }
   }
 }
 
-window.addEventListener("DOMContentLoaded", async () => {
-  await publisher();
+window.addEventListener("DOMContentLoaded", () => {
+  publisher();
 });
