@@ -26,7 +26,7 @@ export async function publishMessageAsync(publisher, data, runNow) {
       data.time = Date.now();
       await publisher(data);
       messageCount++;
-      publishMessageAsync(publisher, data);
+      await publishMessageAsync(publisher, data);
     }, 0);
   }
 }

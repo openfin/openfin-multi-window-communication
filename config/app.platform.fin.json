@@ -2,12 +2,12 @@
   "devtools_port": 9090,
   "licenseKey": "request-a-key",
   "runtime": {
-    "arguments": "--v=1 --inspect",
+    "arguments": "",
     "version": "stable"
   },
   "platform": {
-    "uuid": "openfin-messaging-perf-platform",
-    "applicationIcon": "https://johnman.github.io/openfin-multi-window-communication/favicon.ico",
+    "uuid": "openfin-multi-window-application",
+    "icon": "http://localhost:3000/favicon.ico",
     "autoShow": false
   },
   "snapshot": {
@@ -33,7 +33,7 @@
                   "type": "component",
                   "componentName": "view",
                   "componentState": {
-                    "url": "http://localhost:5000/views/publisher.html",
+                    "url": "http://localhost:3000/views/publisher.html",
                     "name": "component_1584387105285"
                   },
                   "isClosable": true,
