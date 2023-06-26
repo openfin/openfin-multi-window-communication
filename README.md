@@ -15,6 +15,10 @@ This hasn't been built as an example of best practice. The goal is to give you a
 
 You can clone this repo, run npm install and then run npm start. The web server should show localhost:3000. If you open this url in the desktop browser you can (run the test in the browser) and if you have OpenFin installed you will be able to launch a platform through a fins link by click on the link displayed within your desktop browser.
 
+Or you can try running the example off of Github.io:
+
+[Show Github.io Launch Page](https://openfin.github.io/openfin-multi-window-communication/index.html)
+
 More information about OpenFin:
 
 - https://openfin.co/ -> main site
