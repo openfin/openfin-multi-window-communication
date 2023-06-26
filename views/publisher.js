@@ -107,8 +107,6 @@ async function publisher() {
   };
 
   if (window.fin !== undefined) {
-    iabMode.style.display = "unset";
-    channelAPIMode.style.display = "unset";
     if (window.fin.me.isView) {
       const platform = window.fin.Platform.getCurrentSync();
 
@@ -134,6 +132,9 @@ async function publisher() {
         }, 2000);
       };
     }
+  } else {
+    iabMode.style.display = "none";
+    channelAPIMode.style.display = "none";
   }
 
   async function action(id, options) {
