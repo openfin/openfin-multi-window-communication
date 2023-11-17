@@ -6,10 +6,10 @@
     "version": "stable"
   },
   "platform": {
-    "uuid": "openfin-multi-window-application",
-    "icon": "http://localhost:3000/favicon.ico",
+    "uuid": "gh-openfin-multi-window-application-same",
+    "icon": "https://openfin.github.io/openfin-multi-window-communication/favicon.ico",
     "autoShow": false,
-    "viewProcessAffinityStrategy":"different"
+    "viewProcessAffinityStrategy":"same"
   },
   "snapshot": {
     "windows": [
@@ -34,7 +34,7 @@
                   "type": "component",
                   "componentName": "view",
                   "componentState": {
-                    "url": "http://localhost:3000/views/publisher.html",
+                    "url": "https://openfin.github.io/openfin-multi-window-communication/views/publisher.html",
                     "name": "component_1584387105285"
                   },
                   "isClosable": true,

@@ -8,7 +8,8 @@
   "platform": {
     "uuid": "gh-openfin-multi-window-application",
     "icon": "https://openfin.github.io/openfin-multi-window-communication/favicon.ico",
-    "autoShow": false
+    "autoShow": false,
+    "viewProcessAffinityStrategy":"different"
   },
   "snapshot": {
     "windows": [

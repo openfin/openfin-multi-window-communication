@@ -6,7 +6,7 @@
     "version": "stable"
   },
   "platform": {
-    "uuid": "openfin-multi-window-application",
+    "uuid": "openfin-multi-window-application-same",
     "icon": "http://localhost:3000/favicon.ico",
     "autoShow": false,
     "viewProcessAffinityStrategy":"different"
